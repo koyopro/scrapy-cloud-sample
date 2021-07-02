@@ -3,20 +3,19 @@ from scrapy.linkextractors import LinkExtractor
 
 
 class IsetanSpider(CrawlSpider):
+    '''
+    三越伊勢丹のショッピングページを再帰クローリングしてページごとのタイトルを取得するサンプル
+    '''
     name = 'isetan'
     allowed_domains = ['www.mistore.jp']
     start_urls = ['https://www.mistore.jp/shopping']
-
     rules = [Rule(LinkExtractor(), callback='parse_pageinfo', follow=True)]
-
-    def __init__(self):
-        super().__init__()
-        self.download_delay = 1
+    custom_settings = {'DOWNLOAD_DELAY': 1}
 
     def parse_pageinfo(self, response):
-        item = {}
-        item['URL'] = response.url
-        titles = response.xpath('/html/head/title/text()').extract()
-        if titles:
-            item['title'] = titles[0]
+        item = {
+            'URL': response.url,
+            'title': response.xpath('/html/head/title/text()').extract_first().strip()
+        }
+        if item['title']:
             return item

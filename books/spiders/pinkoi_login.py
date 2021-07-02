@@ -4,6 +4,9 @@ from scrapy.http import Request
 
 
 class PinkoiLoginSpider(Spider):
+    '''
+    会員ログインをして、自身のユーザー名を取得するサンプル
+    '''
     name = 'pinkoi_login'
     allowed_domains = ['jp.pinkoi.com']
     start_urls = [

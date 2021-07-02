@@ -2,12 +2,12 @@ from scrapy.spiders import SitemapSpider
 
 
 class BaycrewsSitemapSpider(SitemapSpider):
+    '''
+    サイトマップを元にURL一覧をクローリングして、商品名と価格を取得するサンプル
+    '''
     name = 'baycrews_sitemap'
     sitemap_urls = ['https://temporary-self.s3.ap-northeast-1.amazonaws.com/tmp/sitemap.xml']
-
-    def __init__(self):
-        super().__init__()
-        self.download_delay = 1
+    custom_settings = {'DOWNLOAD_DELAY': 1}
 
     def parse(self, response):
         item = {}

@@ -3,18 +3,17 @@ from scrapy.linkextractors import LinkExtractor
 
 
 class BaycrewsSpider(CrawlSpider):
+    '''
+    ファッションサイトを再帰クローリングして商品名と価格を取得するサンプル
+    '''
     name = 'baycrews'
     allowed_domains = ['baycrews.jp']
     start_urls = ['https://baycrews.jp']
-
+    custom_settings = {'DOWNLOAD_DELAY': 1}
     rules = [
         Rule(LinkExtractor(allow=('/item/detail/',)), callback='parse_pageinfo'),
         Rule(LinkExtractor(deny=('/item/review/', '/blog/')))
     ]
-
-    def __init__(self):
-        super().__init__()
-        self.download_delay = 1
 
     def parse_pageinfo(self, response):
         item = {}
